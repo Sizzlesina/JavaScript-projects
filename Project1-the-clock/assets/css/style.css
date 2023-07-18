@@ -1,0 +1,9 @@
+.border-custome 
+{
+  border: 2px solid white;
+  border-radius: 0px;
+}
+.border-hover:hover
+{
+  border: 2px solid #cf9819;
+}

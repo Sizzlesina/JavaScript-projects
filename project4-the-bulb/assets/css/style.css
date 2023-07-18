@@ -1,0 +1,14 @@
+.bulbOff
+{
+  background: url("../pic/download1.jpg")  no-repeat fixed center;
+  width: 100%;
+  height: 60vh;
+  cursor: pointer;
+}
+.bulbOn
+{
+  background:url("../pic/download.jpg") no-repeat fixed center ;
+  width: 100%;
+  height: 60vh;
+  cursor: pointer;
+}

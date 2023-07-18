@@ -1,0 +1,235 @@
+
+  <style>
+    /** @format */
+
+.order-form {
+  border-radius: 0;
+  width: calc(100% - 20px);
+  margin: 0 auto;
+}
+.order-form-label {
+  border-radius: 0;
+  width: calc(100% - 40px);
+  margin-left: 10px;
+  transform-origin: unset !important;
+}
+.w-custom {
+  width: calc(100% - 10vw);
+  position: inherit;
+  left: 70px;
+}
+.sh0:focus {
+  box-shadow: none;
+}
+.displayItem-action,.addItem {
+  border: 2px solid #272932;
+  padding: 0.5rem 0;
+  text-transform: capitalize;
+  border-radius: 0.5rem;
+  display: none;
+}
+.alert{
+  color: red;
+  border-color: red;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.success{
+  color:rgb(32, 184, 32);
+  border-color: rgb(32, 184, 32);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.grocery-item{
+  display:grid;
+  grid-template-columns: 4fr 1fr;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  transition: all 1s ease-in-out;
+  margin: 0.5rem 0;
+}
+
+.grocery-item:hover{
+  background: #828489;
+}
+.grocery-item__title{
+  text-align: left;
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  color: #272932;
+}
+
+.grocery-item__link{
+  color: red;
+  transition: all 2s linear;   
+}
+
+.grocery-item:hover .grocery-item__link{
+  transform: scale(2);
+}
+
+
+  </style>
+  <!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>Project 5 the Food List</title>
+  </head>
+  <body class="bg-light">
+    <section class="container bg-dark">
+      <section class="menu-list bg-secondary mb-3">
+        <h5 class="displayItem-action">display action</h5>
+        <form action="#" class="text-center mt-4">
+          <label class="form-label mb-3" for="order-form"
+            >پروژه جاوا اسکریپت فرادرس-اضافه کردن اقلام مواد غذایی</label
+          >
+          <input
+            type="text"
+            class="form-control order-form mb-3"
+            id="order-form" />
+          <button class="btn btn-success w-custom order-submit">
+            ارسال به فهرست
+          </button>
+        </form>
+      </section>
+      <section class="order-list bg-secondary text-center mt-4">
+        <h4 class="addItem">display action</h4>
+        <h2 class="text-white mb-5">لیست اقلام مواد غذایی</h2>
+        <div class="item-list mb-3">
+          <!-- <div class="grocery-item">
+                <h4 class="grocery-item__title">item</h4>
+                <a href="#" class="grocery-item__link">
+                    <i class="far fa-trash-alt"></i>
+                     </a> -->
+        </div>
+        <button type="submit" class="btn btn-danger w-custom btn-clear">
+          پاک کردن اقلام
+        </button>
+      </section>
+    </section>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/script.js"></script>
+  <script>
+    /** @format */
+  
+  // Decalaring Variables
+  const success = document.querySelector(".addItems-action");
+  const input = document.querySelector(".order-form");
+  const submit = document.querySelector(".order-submit");
+  const list = document.querySelector(".item-list");
+  const display = document.querySelector(".addItem");
+  const clear = document.querySelector(".btn-clear");
+  // Add Event Listeners
+  submit.addEventListener("click", addItem); // onClick for submit and adding items
+  document.addEventListener("DOMContentLoaded", displayStorage); // onClick for checking for local storage
+  clear.addEventListener("click", removeItems); // onClick for removing Items
+  list.addEventListener("click", removeSingeleItem); // onClick for removed items
+  
+  // Functions
+  
+  let addItem = (event) => {
+    event.preventDefault(); // this function prevent the default activity of the element in HTML then set a new activity for it
+    let value = input.value;
+    if (value === "") {
+      showAction(success, "Please add grocerty item", false); // its a function that we wrote
+    } else {
+      showAction(success, `${value} به فهرست اقلام اضافه شد`, true);
+      createItem(value); // function that we wrote
+      updateStorage(value); // function that we wrote
+    }
+  };
+  let showAction = (element, text, value) => {
+    if (value === true) {
+      element.classList.add("success");
+      element.innerText = text;
+      input.value = "";
+      setTimeout(function () {
+        element.classList.remove("success");
+      }, 3000);
+    } else {
+      element.classList.add("alert");
+      element.innerText = text;
+      input.value = "";
+      setTimeout(function () {
+        element.classList.remove("alert");
+      }, 3000); // setTimeout() function allows you to schedule the execution of a function or the evaluation of an expression after a specified delay (in milliseconds.)
+    }
+  };
+  let createItem = () => {
+    let parent = document.createElement("div"); // in here we create an div element in our HTML file
+    parent.classList.add("grocery-item"); // in here we add the class "grocery-item" to the div tag that we created earlier
+    parent.innerHTML = `<h4 class="grocery-item-title">${value}</h4> 
+    <a href="#" class="grocery-item-link">
+    <i class="fas fa-trash-alt"></i>
+    </a>`; // in here we write our code that we want to add to HTML file in the javascript
+    list.appendChild(parent); // then in here we append the parent tag to the (".item-list") class
+  };
+  
+  let updateStorage = (value) => {
+    let groceryList;
+    groceryList = localStorage.getItem("groceryList") // in here we search in the local storage that if an item with the key named "groceryList" exists
+      ? JSON.parse(localStorage.getItem("groceryList")) // if the answer was true parse the JSON to javascript
+      : []; // if its null store an empty array
+    groceryList.push(value); // in here we push the value => we add an element to the end of the groceryList array
+    localStorage.setItem("groceryList", JSON.stringify(groceryList)); // setItem is used to store data in localStorage. it takes two parameters: the key and the value
+  }; // "groceryList in here is the key under which the data will be stored.keys are typically strings";
+  // then the JSON.stringify() converts the groceryList variable to a JSON string
+  
+  let displayStorage = () => {
+    let exists = localStorage.getItem("groceryList");
+    if (exists) {
+      let storageItems = JSON.parse(localStorage.getItem("groceryList"));
+      storageItems = forEach(function (element) {
+        createItem(element);
+      });
+    }
+  };
+  let removeItems = () => {
+    localStorage.removeItem("groceryList");
+    let items = document.querySelector(".grocery-item");
+  
+    if (items.length > 0) {
+      showAction(display, "All items deleted", false);
+      items.forEach(function (element) {
+        list.removeChild(element);
+      });
+    } else {
+      showAction(display, "No more items to delete", false);
+    }
+  };
+  
+  let removeSingelItems = (event) => {
+    event.preventDefault();
+    let link = event.target.parentElement;
+    if (link.classList.contains("grocery-item-link")) {
+      let text = link.previousELementSibling.innerHTML; // this line access to the previous element sibling textin HTML
+      let groceryItem = event.target.parentElement.parentElement; // in this line we access to the parent Element of the parent Element
+  
+      list.removeChild(groceryItem); // remove the groceryItem child in the (".item-list")
+      showAction(display, `${text}از فهرست اقلام حذف شد`, true); // use showAction function then write the text and use the true part of the function
+      editStorage(text); // then edit the text storage
+    }
+  };
+  
+  let editStorage = (item) => {
+    let groceryItems = JSON.parse(localStorage, getItem("groceryList")); // first of all we search for an item with the key "groceryList" then convert it from JSON to Javascript and store it in the groceryItems variable
+    let index = groceryItems.indexOf(item); // then we store the index of the groceryItems based on the item that is the input of the function in the index variable
+  
+    groceryItems.splice(index, 1); // then we remove one element from the groceryItems starting from the index
+    localStorage.removeItem("grocetyList"); // in here we remove groceryList from the local storage
+    localStorage.setItem("groceryList", JSON.stringify(groceryItems)); // and in here we convert the groceryList to a JSON value 
+  };
+  
+  </script>
+  </body>
+</html>
